@@ -46,7 +46,7 @@
     .form-signin .form-control:focus {
       z-index: 2;
     }
-    .form-signin input[type="email"] {
+    .form-signin input[type="text"] {
       margin-bottom: -1px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
@@ -57,25 +57,20 @@
       border-top-right-radius: 0;
     }
   </style>
-  <title>Wu Lighting Control</title>
+  <title>WU Lighting Control</title>
 </head>
 <body class="text-center">
     <form class="form-signin">
       <img class="mb-4" src="/html/img/wu.png" alt="" width="72" height="125">
       <h1 class="h3 mb-3 font-weight-normal">WU Lighting Control</h1>
-      <input type="text" id="user" class="form-control" placeholder="Username" required autofocus>
+      <input type="text" id="usernm" class="form-control" placeholder="Username" required autofocus>
       <input type="password" id="passwd" class="form-control" placeholder="Password" required>
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div>
       <button class="btn btn-lg btn-primary btn-block" id="btn" type="submit">Sign in</button>
     </form>
-
+    
     <script type="text/javascript">
       $('#btn').click(()=>{
-        alert("Can't login, Database closed!")
+        alert("Can't login, Database error!")
       })
     </script>
 
