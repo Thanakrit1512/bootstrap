@@ -35,19 +35,13 @@ app.get('/', (req,res)=>{
 })
 
 app.get('/getnode/:node', (req,res)=>{
-    if(req.params.node=='*'){
-        connection.find({},(docs)=>{   
-            res.send(docs)
-        })
-    }else{
-        connection.find({node:req.params.node},(docs)=>{   
-            res.send(docs)
-        })
-    }
+    connection.find({node:req.params.node}).then((docs)=>{   
+        res.send(docs)
+    })
 })
 
 app.get('/command/:node/:com',(req,res)=>{
-    connection.find({node:req.params.node},(docs)=>{
+    connection.find({node:req.params.node}).then((docs)=>{
         var ack = new Buffer(req.params.com)
         server.send(ack, 0, ack.length, docs[0].port, docs[0].addr, (err,bytes)=>{})
     })
