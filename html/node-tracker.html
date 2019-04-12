@@ -51,7 +51,7 @@
               </table>
 
               <script type="text/javascript">
-                window.setInterval(ut, 1000);
+                window.setInterval(ut, 30000);
                 function ut() {
                     $.ajax({
                     url: "/getnode/0001",
@@ -60,16 +60,33 @@
                     success: function(res){
                         document.getElementById('t0001').innerHTML = res[0].date
                     }
-                })
+                    })
+                    $.ajax({
+                        url: "/getnode/0002",
+                        type: 'GET',
+                        dataType:'json',
+                        success: function(res){
+                            document.getElementById('t0002').innerHTML = res[0].date
+                        }
+                    })
+                }
+
                 $.ajax({
-                    url: "/getnode/0002",
+                    url: "/getnode/0001",
                     type: 'GET',
                     dataType:'json',
                     success: function(res){
-                        document.getElementById('t0002').innerHTML = res[0].date
+                        document.getElementById('t0001').innerHTML = res[0].date
                     }
-                })
-                }
+                    })
+                    $.ajax({
+                        url: "/getnode/0002",
+                        type: 'GET',
+                        dataType:'json',
+                        success: function(res){
+                            document.getElementById('t0002').innerHTML = res[0].date
+                        }
+                    })
                 
                 
               </script>

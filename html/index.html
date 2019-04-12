@@ -42,12 +42,12 @@
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#" onclick="callMap('z1')">โซน 1: ทางเข้ามหาวิทยาลัย(ป้อมวลัยคม)</a>
-                    <a class="dropdown-item" href="#">โซน 2: ทางเข้ามหาวิทยาลัย(วัดแสงแรง)</a>
-                    <a class="dropdown-item" href="#">โซน 3: ถนนมหาวิทยาลัย(เขตชั้นใน)</a>
-                    <a class="dropdown-item" href="#">โซน 4: หอพักนักศึกษา</a>
-                    <a class="dropdown-item" href="#">โซน 5: บ้านพักบุคลากร</a>
-                    <a class="dropdown-item" href="#">โซน 6: ถนนมหาวิทยาลัย(เขตชั้นนอก)</a>
-                    <a class="dropdown-item" href="#">โซน 7: กลุ่มอาคารเรียนรวม</a>
+                    <a class="dropdown-item" href="#" onclick="callMap('z2')">โซน 2: ทางเข้ามหาวิทยาลัย(วัดแสงแรง)</a>
+                    <a class="dropdown-item" href="#" onclick="callMap('z3')">โซน 3: ถนนมหาวิทยาลัย(เขตชั้นใน)</a>
+                    <a class="dropdown-item" href="#" onclick="callMap('z4')">โซน 4: หอพักนักศึกษา</a>
+                    <a class="dropdown-item" href="#" onclick="callMap('z5')">โซน 5: บ้านพักบุคลากร</a>
+                    <a class="dropdown-item" href="#" onclick="callMap('z6')">โซน 6: ถนนมหาวิทยาลัย(เขตชั้นนอก)</a>
+                    <a class="dropdown-item" href="#" onclick="callMap('z7')">โซน 7: กลุ่มอาคารเรียนรวม</a>
                   </div>
             </li>
             <li class="nav-item dropdown">
@@ -62,7 +62,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link" href="#" onclick="">Schedule <span class="sr-only">(current)</span></a>
             </li>
           </ul>
           <div id="dateTime">
@@ -93,6 +93,18 @@
         function callMap(zone){
           if(zone == 'z1'){
             $('#resFrame').attr('src','/html/img/map1.html')
+          }else if(zone == 'z2'){
+            $('#resFrame').attr('src','/html/img/map2.html')
+          }else if(zone == 'z3'){
+            $('#resFrame').attr('src','/html/img/map3.html')
+          }else if(zone == 'z4'){
+            $('#resFrame').attr('src','/html/img/map4.html')
+          }else if(zone == 'z5'){
+            $('#resFrame').attr('src','/html/img/map5.html')
+          }else if(zone == 'z6'){
+            $('#resFrame').attr('src','/html/img/map6.html')
+          }else if(zone == 'z7'){
+            $('#resFrame').attr('src','/html/img/map7.html')
           }
         }
       </script>
