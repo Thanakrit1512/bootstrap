@@ -56,7 +56,7 @@
               <script type="text/javascript">
                 ut()
                 updateNetwork()
-                window.setInterval(ut, 30000);
+                window.setInterval(ut, 15000);
                 function ut() {
                     $.ajax({
                         url: "/getnode/0001",
@@ -75,7 +75,7 @@
                         }
                     })
                 }
-                window.setInterval(updateNetwork, 10000);
+                window.setInterval(updateNetwork, 30000);
                 function updateNetwork(){
                     var d = new Date()
                     if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 30000){
