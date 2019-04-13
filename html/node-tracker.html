@@ -59,12 +59,12 @@
                 window.setInterval(ut, 30000);
                 function ut() {
                     $.ajax({
-                    url: "/getnode/0001",
-                    type: 'GET',
-                    dataType:'json',
-                    success: function(res){
-                        document.getElementById('dt1').innerHTML = res[0].date
-                    }
+                        url: "/getnode/0001",
+                        type: 'GET',
+                        dataType:'json',
+                        success: function(res){
+                            document.getElementById('dt1').innerHTML = res[0].date
+                        }
                     })
                     $.ajax({
                         url: "/getnode/0002",
@@ -78,14 +78,14 @@
                 window.setInterval(updateNetwork, 10000);
                 function updateNetwork(){
                     var d = new Date()
-                    if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 60000){
+                    if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 30000){
                         document.getElementById('nw1').innerHTML = 'Online'
                         document.getElementById('nw1').style.backgroundColor='green';
                     }else{
                         document.getElementById('nw1').innerHTML = 'Offline'
                         document.getElementById('nw1').style.backgroundColor='red';
                     }
-                    if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 60000){
+                    if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 30000){
                         document.getElementById('nw2').innerHTML = 'Online'
                         document.getElementById('nw2').style.backgroundColor='green';
                     }else{

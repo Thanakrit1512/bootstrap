@@ -24,7 +24,7 @@ var connectSchema = new Schema({
     node:{type:String, required:true},
     addr:{type:String, required:true},
     port:{type:String, required:true},
-    status:{type:String, required:true},
+    status:{type:String},
     date:{type:String, required:true}
 })
 
@@ -36,9 +36,15 @@ app.get('/', (req,res)=>{
 })
 
 app.get('/getnode/:node', (req,res)=>{
-    connection.find({node:req.params.node}).then((docs)=>{   
-        res.send(docs)
-    })
+    if(req.params.node == 'all'){
+        connection.find().then((docs)=>{   
+            res.send(docs)
+        })
+    }else{
+        connection.find({node:req.params.node}).then((docs)=>{   
+            res.send(docs)
+        })
+    }
 })
 
 app.get('/command/:node/:com',(req,res)=>{
