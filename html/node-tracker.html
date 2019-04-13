@@ -75,23 +75,23 @@
                         }
                     })
                 }
-                window.setInterval(updateNetwork, 5000);
+                window.setInterval(updateNetwork, 2500);
                 function updateNetwork(){
                     var d = new Date()
-                    if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 15000){
+                    if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 9000){
                         document.getElementById('nw1').innerHTML = 'Online'
                         document.getElementById('nw1').style.backgroundColor='green';
-                    }else if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() > 15000 && d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 30000){
+                    }else if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() > 9000 && d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 15000){
                         document.getElementById('nw1').innerHTML = 'Reconnecting...'
                         document.getElementById('nw1').style.backgroundColor='yellow';
                     }else{
                         document.getElementById('nw1').innerHTML = 'Offline'
                         document.getElementById('nw1').style.backgroundColor='red';
                     }
-                    if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 15000){
+                    if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 9000){
                         document.getElementById('nw2').innerHTML = 'Online'
                         document.getElementById('nw2').style.backgroundColor='green';
-                    }else if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() > 15000 && d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 30000){
+                    }else if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() > 9000 && d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 15000){
                         document.getElementById('nw2').innerHTML = 'Reconnecting...'
                         document.getElementById('nw2').style.backgroundColor='yellow';
                     }else{
