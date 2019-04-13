@@ -24,7 +24,8 @@ var connectSchema = new Schema({
     node:{type:String, required:true},
     addr:{type:String, required:true},
     port:{type:String, required:true},
-    status:{type:String},
+    c_status:{type:String},
+    l_status:{type:String},
     date:{type:String, required:true}
 })
 
@@ -70,7 +71,8 @@ server.on('message',(msg, rinfo)=>{
             node:msg.slice(2,6),
             addr:rinfo.address,
             port:rinfo.port,
-            status:'',
+            c_status:'',
+            l_status:'',
             date:new Date()
         })
         buffer.save().then((docs)=>{

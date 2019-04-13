@@ -21,7 +21,8 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Node</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Relay</th>
+                    <th scope="col">Line</th>
                     <th scope="col">Network</th>
                     <th scope="col">Handle</th>
                     <th scope="col">Lasted update</th>
@@ -31,7 +32,8 @@
                   <tr>
                     <th scope="row">1</th>
                     <td>0001</td>
-                    <td id="st1">---</td>
+                    <td id="re1">---</td>
+                    <td id="ln1">---</td>
                     <td id="nw1">---</td>
                     <td>
                         <button type="button" class="btn btn-success" onclick="turnOn(0001)">On</button>
@@ -42,7 +44,8 @@
                   <tr>
                     <th scope="row">2</th>
                     <td>0002</td>
-                    <td id="st1">---</td>
+                    <td id="re2">---</td>
+                    <td id="ln2">---</td>
                     <td id="nw2">---</td>
                     <td>
                         <button type="button" class="btn btn-success" onclick="turnOn(0002)">On</button>
@@ -75,7 +78,7 @@
                         }
                     })
                 }
-                window.setInterval(updateNetwork, 15000);
+                window.setInterval(updateNetwork, 1500);
                 function updateNetwork(){
                     var d = new Date()
                     if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 45000){
@@ -92,7 +95,7 @@
                         document.getElementById('nw2').innerHTML = 'Online'
                         document.getElementById('nw2').style.backgroundColor='green';
                     }else if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() > 45000 && d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 60000){
-                        document.getElementById('nw2').innerHTML = 'Reconnecting...'
+                        document.getElementById('nw2').innerHTML = 'Reconnecting'
                         document.getElementById('nw2').style.backgroundColor='yellow';
                     }else{
                         document.getElementById('nw2').innerHTML = 'Offline'
@@ -102,7 +105,7 @@
                 
                 function turnOn(node){
                     $.ajax({
-                        url: "/command/" + "node" + "/01",
+                        url: "/command/" + node + "/01",
                         type: 'GET',
                         dataType:'text',
                         success: function(res){
@@ -112,7 +115,7 @@
                 }
                 function turnOff(node){
                     $.ajax({
-                        url: "/command/" + "node" + "/00",
+                        url: "/command/" + node + "/00",
                         type: 'GET',
                         dataType:'text',
                         success: function(res){
