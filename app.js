@@ -24,6 +24,7 @@ var connectSchema = new Schema({
     node:{type:String, required:true},
     addr:{type:String, required:true},
     port:{type:String, required:true},
+    status:{type:String, required:true},
     date:{type:String, required:true}
 })
 
@@ -41,6 +42,7 @@ app.get('/getnode/:node', (req,res)=>{
 })
 
 app.get('/command/:node/:com',(req,res)=>{
+    res.send('Turn success!')
     connection.find({node:req.params.node}).then((docs)=>{
         var ack = new Buffer(req.params.com)
         server.send(ack, 0, ack.length, docs[0].port, docs[0].addr, (err,bytes)=>{})

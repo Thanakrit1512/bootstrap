@@ -22,6 +22,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Node</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Network</th>
                     <th scope="col">Handle</th>
                     <th scope="col">Lasted update</th>
                   </tr>
@@ -30,27 +31,31 @@
                   <tr>
                     <th scope="row">1</th>
                     <td>0001</td>
-                    <td>---</td>
+                    <td id="st1">---</td>
+                    <td id="nw1">---</td>
                     <td>
-                        <button type="button" class="btn btn-success" id="btn0001n">On</button>
-                        <button type="button" class="btn btn-danger" id="btn0001f">Off</button>
+                        <button type="button" class="btn btn-success" onclick="turnOn(0001)">On</button>
+                        <button type="button" class="btn btn-danger" onclick="turnOff(0001)">Off</button>
                     </td>
-                    <td id="t0001"></td>
+                    <td id="dt1"></td>
                   </tr>
                   <tr>
                     <th scope="row">2</th>
                     <td>0002</td>
-                    <td>---</td>
+                    <td id="st1">---</td>
+                    <td id="nw2">---</td>
                     <td>
-                            <button type="button" class="btn btn-success" id="btn0002n">On</button>
-                            <button type="button" class="btn btn-danger" id="btn0002f">Off</button>
+                        <button type="button" class="btn btn-success" onclick="turnOn(0002)">On</button>
+                        <button type="button" class="btn btn-danger" onclick="turnOff(0002)">Off</button>
                     </td>
-                    <td id="t0002"></td>
+                    <td id="dt2"></td>
                   </tr>
                 </tbody>
               </table>
 
               <script type="text/javascript">
+                ut()
+                updateNetwork()
                 window.setInterval(ut, 30000);
                 function ut() {
                     $.ajax({
@@ -58,7 +63,7 @@
                     type: 'GET',
                     dataType:'json',
                     success: function(res){
-                        document.getElementById('t0001').innerHTML = res[0].date
+                        document.getElementById('dt1').innerHTML = res[0].date
                     }
                     })
                     $.ajax({
@@ -66,27 +71,49 @@
                         type: 'GET',
                         dataType:'json',
                         success: function(res){
-                            document.getElementById('t0002').innerHTML = res[0].date
+                            document.getElementById('dt2').innerHTML = res[0].date
                         }
                     })
                 }
-
-                $.ajax({
-                    url: "/getnode/0001",
-                    type: 'GET',
-                    dataType:'json',
-                    success: function(res){
-                        document.getElementById('t0001').innerHTML = res[0].date
+                window.setInterval(updateNetwork, 10000);
+                function updateNetwork(){
+                    var d = new Date()
+                    if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 60000){
+                        document.getElementById('nw1').innerHTML = 'Online'
+                        document.getElementById('nw1').style.backgroundColor='green';
+                    }else{
+                        document.getElementById('nw1').innerHTML = 'Offline'
+                        document.getElementById('nw1').style.backgroundColor='red';
                     }
-                    })
+                    if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 60000){
+                        document.getElementById('nw2').innerHTML = 'Online'
+                        document.getElementById('nw2').style.backgroundColor='green';
+                    }else{
+                        document.getElementById('nw2').innerHTML = 'Offline'
+                        document.getElementById('nw2').style.backgroundColor='red';
+                    }
+                }
+                
+                function turnOn(node){
                     $.ajax({
-                        url: "/getnode/0002",
+                        url: "/command/" + "node" + "/01",
                         type: 'GET',
-                        dataType:'json',
+                        dataType:'text',
                         success: function(res){
-                            document.getElementById('t0002').innerHTML = res[0].date
+                            console.log(res)
                         }
                     })
+                }
+                function turnOff(node){
+                    $.ajax({
+                        url: "/command/" + "node" + "/00",
+                        type: 'GET',
+                        dataType:'text',
+                        success: function(res){
+                            console.log(res)
+                        }
+                    })
+                }
                 
                 
               </script>
