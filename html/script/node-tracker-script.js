@@ -90,10 +90,10 @@ function turnOff(node){
 function turnOn(node){
     if(node == '0002'){
         sw1.innerHTML = 'Off'
-        sw1.style.backgroundColor = "#2add4e"
+        sw1.style.backgroundColor = "#dd2a2a"
     }else if(node == '0002'){
         sw2.innerHTML = 'Off'
-        sw2.style.backgroundColor = "#2add4e"
+        sw2.style.backgroundColor = "#dd2a2a"
     }
     $.ajax({
         url: "/command/" + node + "/01",
