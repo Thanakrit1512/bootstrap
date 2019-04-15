@@ -24,7 +24,7 @@ var connectSchema = new Schema({
     addr:{type:String, required:true},
     port:{type:String, required:true},
     sw_state:{type:String, required:true},
-    ld_stste:{type:String, required:true},
+    ld_state:{type:String, required:true},
     date:{type:String, required:true}
 })
 
