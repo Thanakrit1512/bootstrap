@@ -9,52 +9,31 @@ var nw1 = document.getElementById('nw1')
 var nw2 = document.getElementById('nw2')
 
 
-updateState()
-window.setInterval(updateState, 1200);
 
+updateState()
+window.setInterval(updateState, 1500);
 
 function updateState(){
-    if(d.getTime() - new Date(dt1.innerHTML).getTime() <= 36000){
-        nw1.innerHTML = 'Online'
-        nw1.style.backgroundColor='green';
-    }else if(d.getTime() - new Date(dt1.innerHTML).getTime() > 36000 && d.getTime() - new Date(dt1.innerHTML).getTime() <= 60000){
-        nw1.innerHTML = 'Reconnecting...'
-        nw1.style.backgroundColor='yellow';
-    }else{
-        nw1.innerHTML = 'Offline'
-        nw1.style.backgroundColor='red';
-    }
-    if(d.getTime() - new Date(dt2.innerHTML).getTime() <= 36000){
-        nw2.innerHTML = 'Online'
-        nw2.style.backgroundColor='green';
-    }else if(d.getTime() - new Date(dt2.innerHTML).getTime() > 36000 && d.getTime() - new Date(dt2.innerHTML).getTime() <= 60000){
-        nw2.innerHTML = 'Reconnecting'
-        nw2.style.backgroundColor='yellow';
-    }else{
-        nw2.innerHTML = 'Offline'
-        nw2.style.backgroundColor='red';
-    }
 
     $.ajax({
         url: "/getnode/0001",
         type: 'GET',
         dataType:'json',
         success: function(res){
-            dt2.innerHTML = res[0].date
-            if(res[0].sw_state == 'T'){
+            dt1.innerHTML = res[0].date
+            if(res[0].sw_status == 'T'){
                 sw1.innerHTML = 'On'
-                sw1.style.backgroundColor='green';
+                sw1.style.backgroundColor = "#2add4e"
             }else{
                 sw1.innerHTML = 'Off'
-                sw1.style.backgroundColor='red';
+                sw1.style.backgroundColor = "#dd2a2a"
             }
-
-            if(res[0].ld_state == 'T'){
+            if(res[0].ld_status == 'T'){
                 ld1.innerHTML = 'On'
-                ld1.style.backgroundColor='green';
+                ld1.style.backgroundColor = "#2add4e"
             }else{
                 ld1.innerHTML = 'Off'
-                ld1.style.backgroundColor='red';
+                ld1.style.backgroundColor = "#dd2a2a"
             }
         }
     })
@@ -64,23 +43,45 @@ function updateState(){
         dataType:'json',
         success: function(res){
             dt2.innerHTML = res[0].date
-            if(res[0].sw_state == 'T'){
+            if(res[0].sw_status == 'T'){
                 sw2.innerHTML = 'On'
-                sw2.style.backgroundColor='green';
+                sw2.style.backgroundColor = "#2add4e"
             }else{
                 sw2.innerHTML = 'Off'
-                sw2.style.backgroundColor='red';
+                sw2.style.backgroundColor = "#dd2a2a"
             }
-
-            if(res[0].ld_state == 'T'){
+            if(res[0].ld_status == 'T'){
                 ld2.innerHTML = 'On'
-                ld2.style.backgroundColor='green';
+                ld2.style.backgroundColor = "#2add4e"
             }else{
                 ld2.innerHTML = 'Off'
-                ld2.style.backgroundColor='red';
+                ld2.style.backgroundColor = "#dd2a2a"
             }
         }
     })
+
+    if(d.getTime() - new Date(dt1.innerHTML).getTime() <= 35000){
+        nw1.innerHTML = 'Online'
+        nw1.style.backgroundColor='green';
+    }else if(d.getTime() - new Date(dt1.innerHTML).getTime() > 35000 && d.getTime() - new Date(dt1.innerHTML).getTime() <= 60000){
+        nw1.innerHTML = 'Reconnecting...'
+        nw1.style.backgroundColor='yellow';
+    }else{
+        nw1.innerHTML = 'Offline'
+        nw1.style.backgroundColor='red';
+    }
+    if(d.getTime() - new Date(dt2.innerHTML).getTime() <= 35000){
+        nw2.innerHTML = 'Online'
+        nw2.style.backgroundColor='green';
+    }else if(d.getTime() - new Date(dt2.innerHTML).getTime() > 35000 && d.getTime() - new Date(dt2.innerHTML).getTime() <= 60000){
+        nw2.innerHTML = 'Reconnecting'
+        nw2.style.backgroundColor='yellow';
+    }else{
+        nw2.innerHTML = 'Offline'
+        nw2.style.backgroundColor='red';
+    }
+
+    
 }
 
 
