@@ -76,8 +76,8 @@ server.on('message',(msg, rinfo)=>{
             node:msg.slice(0,4),
             addr:rinfo.address,
             port:rinfo.port,
-            sw_state:msg.slice(5,6),
-            ld_state:msg.slice(6),
+            sw_state:msg.slice(4,5),
+            ld_state:msg.slice(5),
             date:new Date()
         })
         buffer.save().then((docs)=>{

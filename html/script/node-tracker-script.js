@@ -40,7 +40,7 @@ function updateState(){
         type: 'GET',
         dataType:'json',
         success: function(res){
-            dt1.innerHTML = res[0].date
+            dt2.innerHTML = res[0].date
             if(res[0].sw_state == 'T'){
                 sw1.innerHTML = 'On'
                 sw1.style.backgroundColor='green';
