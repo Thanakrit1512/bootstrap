@@ -1,5 +1,3 @@
-import { on } from "cluster";
-
 var d = new Date()
 var dt1 = document.getElementById('dt1')
 var dt2 = document.getElementById('dt2')
@@ -13,9 +11,11 @@ var nw2 = document.getElementById('nw2')
 
 
 ut()
-updateNetwork()
+updateState()
+update_LS()
 window.setInterval(ut, 15000);
-window.setInterval(updateState, 1000);
+window.setInterval(updateState, 5000);
+window.setInterval(update_LS, 5000);
 
 function ut() {
     $.ajax({
@@ -36,7 +36,7 @@ function ut() {
     })
 }
 
-function updateNetwork(){
+function updateState(){
     if(d.getTime() - new Date(dt1.innerHTML).getTime() <= 35000){
         nw1.innerHTML = 'Online'
         nw1.style.backgroundColor='#418d52';
@@ -45,7 +45,7 @@ function updateNetwork(){
         nw1.style.backgroundColor='#d8cc41';
     }else{
         nw1.innerHTML = 'Offline'
-        nw1.style.backgroundColor='#8d4141';
+        nw1.style.backgroundColor='#ff5151';
     }
     if(d.getTime() - new Date(dt2.innerHTML).getTime() <= 35000){
         nw2.innerHTML = 'Online'
@@ -55,9 +55,8 @@ function updateNetwork(){
         nw2.style.backgroundColor='#d8cc41';
     }else{
         nw2.innerHTML = 'Offline'
-        nw2.style.backgroundColor='#8d4141';
+        nw2.style.backgroundColor='#ff5151';
     }
-    update_LS()
 }
 
 function update_LS(){
@@ -72,14 +71,14 @@ function update_LS(){
                 sw1.style.backgroundColor = '#418d52'
             }else{
                 sw1.innerHTML = 'Off'
-                sw1.style.backgroundColor = '#8d4141'
+                sw1.style.backgroundColor = '#ff5151'
             }
             if(res[0].ld_state == 'T'){
                 ld1.innerHTML = 'On'
                 ld1.style.backgroundColor = '#418d52'
             }else{
                 ld1.innerHTML = 'Off'
-                ld1.style.backgroundColor = '#8d4141'
+                ld1.style.backgroundColor = '#ff5151'
             }
         }
     })
@@ -94,14 +93,14 @@ function update_LS(){
                 sw2.style.backgroundColor = '#418d52'
             }else{
                 sw2.innerHTML = 'Off'
-                sw2.style.backgroundColor = '#8d4141'
+                sw2.style.backgroundColor = '#ff5151'
             }
             if(res[0].ld_state == 'T'){
                 ld2.innerHTML = 'On'
                 ld2.style.backgroundColor = '#418d52'
             }else{
                 ld2.innerHTML = 'Off'
-                ld2.style.backgroundColor = '#8d4141'
+                ld2.style.backgroundColor = '#ff5151'
             }
         }
     })
