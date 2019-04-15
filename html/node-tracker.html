@@ -22,7 +22,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Node</th>
                     <th scope="col">Relay</th>
-                    <th scope="col">Line</th>
+                    <th scope="col">Load</th>
                     <th scope="col">Network</th>
                     <th scope="col">Handle</th>
                     <th scope="col">Lasted update</th>
@@ -32,8 +32,8 @@
                   <tr>
                     <th scope="row">1</th>
                     <td>0001</td>
-                    <td id="re1">---</td>
-                    <td id="ln1">---</td>
+                    <td id="sw1">---</td>
+                    <td id="ld1">---</td>
                     <td id="nw1">---</td>
                     <td>
                         <button type="button" class="btn btn-success" onclick="turnOn('0001')">On</button>
@@ -44,8 +44,8 @@
                   <tr>
                     <th scope="row">2</th>
                     <td>0002</td>
-                    <td id="re2">---</td>
-                    <td id="ln2">---</td>
+                    <td id="sw2">---</td>
+                    <td id="ld2">---</td>
                     <td id="nw2">---</td>
                     <td>
                         <button type="button" class="btn btn-success" onclick="turnOn('0002')">On</button>
@@ -56,75 +56,6 @@
                 </tbody>
               </table>
 
-              <script type="text/javascript">
-                ut()
-                updateNetwork()
-                window.setInterval(ut, 15000);
-                function ut() {
-                    $.ajax({
-                        url: "/getnode/0001",
-                        type: 'GET',
-                        dataType:'json',
-                        success: function(res){
-                            document.getElementById('dt1').innerHTML = res[0].date
-                        }
-                    })
-                    $.ajax({
-                        url: "/getnode/0002",
-                        type: 'GET',
-                        dataType:'json',
-                        success: function(res){
-                            document.getElementById('dt2').innerHTML = res[0].date
-                        }
-                    })
-                }
-                window.setInterval(updateNetwork, 1500);
-                function updateNetwork(){
-                    var d = new Date()
-                    if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 45000){
-                        document.getElementById('nw1').innerHTML = 'Online'
-                        document.getElementById('nw1').style.backgroundColor='green';
-                    }else if(d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() > 45000 && d.getTime() - new Date(document.getElementById('dt1').innerHTML).getTime() <= 60000){
-                        document.getElementById('nw1').innerHTML = 'Reconnecting...'
-                        document.getElementById('nw1').style.backgroundColor='yellow';
-                    }else{
-                        document.getElementById('nw1').innerHTML = 'Offline'
-                        document.getElementById('nw1').style.backgroundColor='red';
-                    }
-                    if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 45000){
-                        document.getElementById('nw2').innerHTML = 'Online'
-                        document.getElementById('nw2').style.backgroundColor='green';
-                    }else if(d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() > 45000 && d.getTime() - new Date(document.getElementById('dt2').innerHTML).getTime() <= 60000){
-                        document.getElementById('nw2').innerHTML = 'Reconnecting'
-                        document.getElementById('nw2').style.backgroundColor='yellow';
-                    }else{
-                        document.getElementById('nw2').innerHTML = 'Offline'
-                        document.getElementById('nw2').style.backgroundColor='red';
-                    }
-                }
-                
-                function turnOn(node){
-                    $.ajax({
-                        url: "/command/" + node + "/01",
-                        type: 'GET',
-                        dataType:'text',
-                        success: function(res){
-                            console.log(res)
-                        }
-                    })
-                }
-                function turnOff(node){
-                    $.ajax({
-                        url: "/command/" + node + "/00",
-                        type: 'GET',
-                        dataType:'text',
-                        success: function(res){
-                            console.log(res)
-                        }
-                    })
-                }
-                
-                
-              </script>
+              <script type="text/javascript" src="/html/script/node-tracker-script.js"></script>
 </body>
 </html>

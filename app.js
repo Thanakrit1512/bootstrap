@@ -8,7 +8,6 @@ var dgram = require('dgram')
 var server = dgram.createSocket('udp4')
 var s_port = 41234
 
-
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
 
@@ -24,8 +23,8 @@ var connectSchema = new Schema({
     node:{type:String, required:true},
     addr:{type:String, required:true},
     port:{type:String, required:true},
-    c_status:{type:String},
-    l_status:{type:String},
+    sw_state:{type:String, required:true},
+    ld_stste:{type:String, required:true},
     date:{type:String, required:true}
 })
 
@@ -56,6 +55,12 @@ app.get('/command/:node/:com',(req,res)=>{
     })
 })
 
+app.get('/drops', (req,res)=>{
+    connection.remove({},(docs)=>{
+        res.send(docs)
+    })
+})
+
 app.listen(a_port, ()=>{
     console.log('Listening on port ' + a_port)
 })
@@ -66,13 +71,13 @@ app.listen(a_port, ()=>{
 server.on('message',(msg, rinfo)=>{
     console.log('server got a message from ' + rinfo.address + ':' + rinfo.port);
     console.log('ASCII: ' + msg);
-    connection.deleteOne({node:msg.slice(2,6)}).then((docs)=>{
+    connection.deleteOne({node:msg.slice(0,4)}).then((docs)=>{
         let buffer = new connection({
-            node:msg.slice(2,6),
+            node:msg.slice(0,4),
             addr:rinfo.address,
             port:rinfo.port,
-            c_status:'',
-            l_status:'',
+            sw_state:msg.slice(5,6),
+            ld_state:msg.slice(6),
             date:new Date()
         })
         buffer.save().then((docs)=>{
@@ -92,5 +97,3 @@ server.on('close',()=>{
 })
 
 server.bind(s_port)
-
-
