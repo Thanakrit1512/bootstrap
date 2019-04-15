@@ -11,8 +11,10 @@ var nw2 = document.getElementById('nw2')
 
 
 ut()
-updateNetwork()
+updateState()
 window.setInterval(ut, 15000);
+window.setInterval(updateState, 1500);
+
 function ut() {
     $.ajax({
         url: "/getnode/0001",
@@ -32,7 +34,6 @@ function ut() {
     })
 }
 
-window.setInterval(updateState, 1500);
 function updateState(){
     if(d.getTime() - new Date(dt1.innerHTML).getTime() <= 35000){
         nw1.innerHTML = 'Online'
