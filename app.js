@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/Mydb').th
 })
 
 var connectSchema = new Schema({
-    node:{type:String, required:true},
+    node:{type:String, required:true, unique:true},
     addr:{type:String, required:true},
     port:{type:String, required:true},
     sw_state:{type:String, required:true},
@@ -66,12 +66,11 @@ app.listen(a_port, ()=>{
 })
 
 
-
 //UDP
 server.on('message',(msg, rinfo)=>{
     console.log('server got a message from ' + rinfo.address + ':' + rinfo.port);
     console.log('ASCII: ' + msg);
-    connection.deleteOne({node:msg.slice(0,4)}).then((docs)=>{
+    connection.deleteMany({node:msg.slice(0,4)}).then((docs)=>{
         let buffer = new connection({
             node:msg.slice(0,4),
             addr:rinfo.address,
