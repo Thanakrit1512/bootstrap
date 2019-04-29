@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WU lighting Control</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+	<script src="js/jquery.min.js"></script>
+    <style>
+      
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+     
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+	
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+    crossorigin=""></script>
+	
+	<!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+  </head>
+  <body>
+  <div id="map"></div>
+	
+	<script>
+		var mymap = L.map('map',{ zoomControl:false }).setView([8.64159,99.89747], 16);
+ 
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href=”https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+
+ 
+        var stationIcon = L.icon({iconUrl: '/html/img/marker.png', iconAnchor: [16, 32], popupAnchor: [0, -32]});
+					station = L.marker([8.6411,99.9035], {icon: stationIcon})
+					.addTo(mymap).bindPopup("Light control : node1");
+
+		/* var station = [];
+		var car = [];
+		var myposition;
+		
+		$.ajax({
+			url: 'php/process.php',
+			type: 'POST', // Send post data
+			data: 'type=fetch_station',
+			success: function(s){
+				//console.log(s);
+				var obj = JSON.parse(s);
+				obj.forEach(function(item){
+					var stationIcon = L.icon({iconUrl: 'img/bus-stop-icon.png', iconAnchor: [16, 32], popupAnchor: [0, -32]});
+					station[item.id] = L.marker([item.latitude,item.longitude], {icon: stationIcon})
+					.addTo(map)
+					.bindPopup('<div style="font-size: 12px;">' + item.name + '</div>', {autoPan:false, closeButton:false, autoClose:false, closeOnEscapeKey:false, closeOnClick:false})
+					
+					//station[item.id].addTo(map);
+					station[item.id].remove();
+				});
+			}
+		});
+		
+		$.ajax({
+			url: 'php/location.php',
+			type: 'POST', // Send post data
+			data: 'type=fetch_location',
+			success: function(s){
+				//console.log(s);
+				var obj = JSON.parse(s);
+				obj.forEach(function(item){
+							
+					var carIcon = L.icon({iconUrl: 'img/' + item.icon, iconAnchor: [16, 32], popupAnchor: [0, -32]});
+					car[item.cars_id] = L.marker([item.latitude,item.longitude], {icon: carIcon})
+					.addTo(map)
+					.bindPopup('<div style="font-size: 12px;">' + item.cars_name +' (' + item.speed +' km/h)</div>', {autoPan:false, closeButton:false, autoClose:false, closeOnEscapeKey:false, closeOnClick:false})
+							
+					//car[item.id].addTo(map);
+								
+				});
+						
+			}
+		});
+		
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+		} else { 
+			//x.innerHTML = "Geolocation is not supported by this browser.";
+		}
+		
+		function showPosition(position) {
+			var carIcon = L.icon({iconUrl: 'img/user-position.png', iconAnchor: [16, 32], popupAnchor: [0, -32]});
+			myposition = L.marker([position.coords.latitude,position.coords.longitude], {icon: carIcon})
+			.addTo(map)
+			.bindPopup('<div style="font-size: 12px;">You are here.</div>')
+			.openPopup();
+		}
+		
+		setTimeout(refresh, 1000);
+		
+		function refresh() {
+			$.ajax({
+				url: 'php/location.php',
+				type: 'POST', // Send post data
+				data: 'type=fetch_location',
+				success: function(s){
+					//console.log(s);
+					var obj = JSON.parse(s);
+					obj.forEach(function(item){
+						car[item.cars_id].setLatLng([item.latitude,item.longitude]).update();
+					});
+				}
+			});
+			setTimeout(refresh, 1000);
+		}
+		
+		function showStation() {
+			for(var key in station) {
+				station[key].addTo(map);
+			}
+		}
+			  
+		function hideStation() {
+			for(var key in station) {
+				station[key].remove();
+			}
+		}
+		
+		function showLabel() {
+			for(var key in station) {
+				station[key].openPopup();
+			}
+			for(var key in car) {
+				car[key].openPopup();
+			}
+		}
+			  
+		function hideLabel() {
+			for(var key in station) {
+				station[key].closePopup()
+			}
+			for(var key in car) {
+				car[key].closePopup()
+			}
+		}*/
+
+	</script>
+
+  </body>
+</html>

@@ -10,6 +10,10 @@ function gotoHome(){
   $('#resFrame').attr('src','/html/node-tracker.html')
 }
 
+function openMap(){
+  $('#resFrame').attr('src','/html/openmap.html')
+}
+
 function callData(api){
   if(api=='getnodeall'){
     $('#resFrame').attr('src','/getnode/all')
