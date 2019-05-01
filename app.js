@@ -101,7 +101,7 @@ app.get('/dropbyplace/:place', (req,res)=>{
             res.send(docs)
         })
     }else{
-        place.remove({place:req.params.palce},(docs)=>{
+        place.remove({p_id:req.params.palce},(docs)=>{
             res.send(docs)
         })
     }
