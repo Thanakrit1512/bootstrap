@@ -62,8 +62,10 @@ app.get('/command/:node/:com',(req,res)=>{
     })
 })
 
+/*-------------------------------------------------*/
+
 app.get('/dropallconnection', (req,res)=>{
-    connection.remove({},(docs)=>{
+    place.remove({},(docs)=>{
         res.send(docs)
     })
 })
@@ -71,18 +73,18 @@ app.get('/dropallconnection', (req,res)=>{
 
 app.get('/getplace/:place', (req,res)=>{
     if(req.params.place == 'all'){
-        connection.find().then((docs)=>{   
+        place.find().then((docs)=>{   
             res.send(docs)
         })
     }else{
-        connection.find({place:req.params.place}).then((docs)=>{   
+        place.find({place:req.params.place}).then((docs)=>{   
             res.send(docs)
         })
     }
 })
 
 app.post('/postplace', (req,res)=>{
-    let buffer = new connection({
+    let buffer = new place({
         p_id:req.body.p_id,
         name:req.body.name,
         lat:req.body.lat,
