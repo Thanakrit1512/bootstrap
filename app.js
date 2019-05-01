@@ -27,8 +27,15 @@ var connectSchema = new Schema({
     ld_state:{type:String, required:true},
     date:{type:String, required:true}
 })
+var placeSchema = new Schema({
+    p_id:{type:String, required:true, unique:true},
+    name:{type:String, required:true},
+    lat:{type:String, required:true},
+    lng:{type:String, required:true},
+})
 
 var connection = mongoose.model('routing', connectSchema)
+var place = mongoose.model('place', placeSchema)
 
 //HTTP JSON
 app.get('/', (req,res)=>{
@@ -55,10 +62,47 @@ app.get('/command/:node/:com',(req,res)=>{
     })
 })
 
-app.get('/drops', (req,res)=>{
+app.get('/dropallconnection', (req,res)=>{
     connection.remove({},(docs)=>{
         res.send(docs)
     })
+})
+
+
+app.get('/getplace/:place', (req,res)=>{
+    if(req.params.place == 'all'){
+        connection.find().then((docs)=>{   
+            res.send(docs)
+        })
+    }else{
+        connection.find({place:req.params.place}).then((docs)=>{   
+            res.send(docs)
+        })
+    }
+})
+
+app.post('/postplace', (req,res)=>{
+    let buffer = new connection({
+        p_id:req.body.p_id,
+        name:req.body.name,
+        lat:req.body.lat,
+        lng:req.body.lng,
+    })
+    buffer.save().then((docs)=>{
+        console.log(docs)        
+    })
+})
+
+app.get('/dropbyplace/:place', (req,res)=>{
+    if(req.params.palce == 'all'){
+        place.remove({},(docs)=>{
+            res.send(docs)
+        })
+    }else{
+        place.remove({place:req.params.palce},(docs)=>{
+            res.send(docs)
+        })
+    }
 })
 
 app.listen(a_port, ()=>{
