@@ -62,14 +62,19 @@ app.get('/command/:node/:com',(req,res)=>{
     })
 })
 
-/*-------------------------------------------------*/
-
-app.get('/dropallconnection', (req,res)=>{
-    place.remove({},(docs)=>{
-        res.send(docs)
-    })
+app.get('/dropconnection/:connection', (req,res)=>{
+    if(req.params.palce == 'all'){
+        connection.remove({},(docs)=>{
+            res.send(docs)
+        })
+    }else{
+        connection.remove({node:req.params.connection},(docs)=>{
+            res.send(docs)
+        })
+    }
 })
 
+/*-------------------------------------------------*/
 
 app.get('/getplace/:place', (req,res)=>{
     if(req.params.place == 'all'){
@@ -95,7 +100,7 @@ app.post('/postplace', (req,res)=>{
     })
 })
 
-app.get('/dropbyplace/:place', (req,res)=>{
+app.get('/dropplace/:place', (req,res)=>{
     if(req.params.palce == 'all'){
         place.remove({},(docs)=>{
             res.send(docs)
