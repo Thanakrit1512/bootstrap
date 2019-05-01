@@ -77,7 +77,7 @@ app.get('/getplace/:place', (req,res)=>{
             res.send(docs)
         })
     }else{
-        place.find({place:req.params.place}).then((docs)=>{   
+        place.find({p_id:req.params.place}).then((docs)=>{   
             res.send(docs)
         })
     }
