@@ -55,6 +55,22 @@ app.get('/getconnection/:connection', (req,res)=>{
     }
 })
 
+app.post('/postconnection', (req,res)=>{
+    let buffer = new connection({
+        node:req.body.node,
+        addr:req.body.addr,
+        port:req.body.port,
+        sw_state:req.body.sw_state,
+        ld_state:req.body.ld_state,
+        date:new Date()
+    })
+    buffer.save().then((docs)=>{
+        res.send(docs)        
+    },(err)=>{
+        res.send(err)        
+    })
+})
+
 app.get('/dropconnection/:connection', (req,res)=>{
     if(req.params.palce == 'all'){
         connection.remove({},(docs)=>{
