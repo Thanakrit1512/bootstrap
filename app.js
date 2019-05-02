@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 
 var Schema = mongoose.Schema
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/Mydb').then(()=>{
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ProjectDB').then(()=>{
   console.log('@@@ Connect Success @@@')
 }, ()=>{
   console.log('!!! Fail to connect !!!')
@@ -27,6 +27,7 @@ var connectSchema = new Schema({
     ld_state:{type:String, required:true},
     date:{type:String, required:true}
 })
+
 var placeSchema = new Schema({
     p_id:{type:String, required:true, unique:true},
     name:{type:String, required:true},
@@ -34,16 +35,16 @@ var placeSchema = new Schema({
     lng:{type:String, required:true},
 })
 
-var connection = mongoose.model('routing', connectSchema)
-var place = mongoose.model('place', placeSchema)
+var connection = mongoose.model('routingTable', connectSchema)
+var place = mongoose.model('placeTable', placeSchema)
 
 //HTTP JSON
 app.get('/', (req,res)=>{
     res.sendFile(__dirname + '/html/login.html')
 })
 
-app.get('/getnode/:node', (req,res)=>{
-    if(req.params.node == 'all'){
+app.get('/getconnection/:connection', (req,res)=>{
+    if(req.params.connection == 'all'){
         connection.find().then((docs)=>{   
             res.send(docs)
         })
@@ -52,14 +53,6 @@ app.get('/getnode/:node', (req,res)=>{
             res.send(docs)
         })
     }
-})
-
-app.get('/command/:node/:com',(req,res)=>{
-    res.send('Turn success!')
-    connection.find({node:req.params.node}).then((docs)=>{
-        var ack = new Buffer(req.params.com)
-        server.send(ack, 0, ack.length, docs[0].port, docs[0].addr, (err,bytes)=>{})
-    })
 })
 
 app.get('/dropconnection/:connection', (req,res)=>{
@@ -73,6 +66,15 @@ app.get('/dropconnection/:connection', (req,res)=>{
         })
     }
 })
+
+app.get('/command/:node/:com',(req,res)=>{
+    res.send('Turn success!')
+    connection.find({node:req.params.node}).then((docs)=>{
+        var ack = new Buffer(req.params.com)
+        server.send(ack, 0, ack.length, docs[0].port, docs[0].addr, (err,bytes)=>{})
+    })
+})
+
 
 /*-------------------------------------------------*/
 
@@ -96,17 +98,19 @@ app.post('/postplace', (req,res)=>{
         lng:req.body.lng,
     })
     buffer.save().then((docs)=>{
-        console.log(docs)        
+        res.send(docs)        
+    },(err)=>{
+        res.send(err)        
     })
 })
 
 app.get('/dropplace/:place', (req,res)=>{
     if(req.params.palce == 'all'){
-        place.remove({},(docs)=>{
-            res.send(docs)
+        place.remove({},(d)=>{
+            res.send(d)
         })
     }else{
-        place.remove({p_id:req.params.palce},(docs)=>{
+        connection.remove({p_id:req.params.place},(docs)=>{
             res.send(docs)
         })
     }
