@@ -17,11 +17,13 @@ app.listen(a_port, function () {
     console.log("Sample Code for RESTful API run at ", a_port)
 })
 
-// ------------------ Routing ------------------
+// ------------------ General ------------------
 
 app.get('/', function (req, res) {
     res.send("Sample Code for RESTful API");
 })
+
+// ------------------ Routing ------------------
 
 app.get('/getrouting/:id', function (req, res) {
     if(req.params.id == 'all'){
@@ -33,7 +35,7 @@ app.get('/getrouting/:id', function (req, res) {
             }
         })
     }else{
-        db.routing.find({id:req.params.id}, function (err, docs) {
+        db.routing.find({_id:req.params.id}, function (err, docs) {
             if (Object.keys(docs).length != 0) {
                 res.json(docs);
             } else {
@@ -43,28 +45,30 @@ app.get('/getrouting/:id', function (req, res) {
     }
 })
 
-app.post('/postrouting', function (req, res) {
-    db.routing.find({}, function (err, docs) {
-        if (Object.keys(docs).length != 0) {
-            db.routing.findAndModify({
-                query: {
-                  id: req.body['id']
-                },
-                update: {
-                  $set: req.body
-                },
-                new: true
-              }, function (err, docs) {
-                console.log('Update Done', docs);
-                res.json(docs);
-              })
-        } else {
-            db.routing.insert(req.body, function (err, docs) {
-                res.send(docs);
-            })
+app.post('/addrouting', function (req, res) {
+    db.routing.insert(req.body, function (err, docs) {
+        if(err != null){
+            res.send(err)
+        }else{
+            res.send(docs)
         }
-    })
 
+    })
+})
+
+app.post('/updaterouting', function (req, res) {
+    db.routing.findAndModify({
+        query: {
+          _id: req.body['_id']
+        },
+        update: {
+          $set: req.body
+        },
+        new: true
+      }, function (err, docs) {
+        console.log('Update Done', docs);
+        res.json(docs);
+      })
 })
 
 app.get('/delrouting/:id', function (req, res) {
@@ -74,7 +78,7 @@ app.get('/delrouting/:id', function (req, res) {
             res.send(docs)
           })
     }else{
-        db.routing.remove({id: req.params.id}, function (err, docs) {
+        db.routing.remove({_id: req.params.id}, function (err, docs) {
             console.log(docs)
             res.send(docs)
           })
@@ -93,7 +97,7 @@ app.get('/getplace/:id', function (req, res) {
             }
         })
     }else{
-        db.place.find({id:req.params.id}, function (err, docs) {
+        db.place.find({_id:req.params.id}, function (err, docs) {
             if (Object.keys(docs).length != 0) {
                 res.json(docs);
             } else {
@@ -103,28 +107,30 @@ app.get('/getplace/:id', function (req, res) {
     }
 })
 
-app.post('/postplace', function (req, res) {
-    db.place.find({}, function (err, docs) {
-        if (Object.keys(docs).length != 0) {
-            db.place.findAndModify({
-                query: {
-                  id: req.body['id']
-                },
-                update: {
-                  $set: req.body
-                },
-                new: true
-              }, function (err, docs) {
-                console.log('Update Done', docs);
-                res.json(docs);
-              })
-        } else {
-            db.place.insert(req.body, function (err, docs) {
-                res.send(docs);
-            })
+app.post('/addplace', function (req, res) {
+    db.place.insert(req.body, function (err, docs) {
+        if(err != null){
+            res.send(err)
+        }else{
+            res.send(docs)
         }
-    })
 
+    })
+})
+
+app.post('/updateplace', function (req, res) {
+    db.place.findAndModify({
+        query: {
+          _id: req.body['_id']
+        },
+        update: {
+          $set: req.body
+        },
+        new: true
+      }, function (err, docs) {
+        console.log('Update Done', docs);
+        res.json(docs);
+      })
 })
 
 app.get('/delplace/:id', function (req, res) {
@@ -134,7 +140,7 @@ app.get('/delplace/:id', function (req, res) {
             res.send(docs)
           })
     }else{
-        db.place.remove({id: req.params.id}, function (err, docs) {
+        db.place.remove({_id: req.params.id}, function (err, docs) {
             console.log(docs)
             res.send(docs)
           })
@@ -158,7 +164,7 @@ server.on('message',(msg, rinfo)=>{
     console.log('ASCII: ' + msg);
 
     var udpjson={
-            id:msg.slice(0,4),
+            _id:msg.slice(0,4),
             addr:rinfo.address,
             port:rinfo.port,
             sw:msg.slice(4,5),
@@ -166,23 +172,15 @@ server.on('message',(msg, rinfo)=>{
             date:new Date()
     }
 
-    db.routing.find({}, function (err, docs) {
-        if (Object.keys(docs).length != 0) {
-            db.routing.findAndModify({
-                query: {
-                    id: req.body['id']
-                },update: {
-                    $set: udpjson
-                },new: true
-            }, function (err, docs) {
-                console.log('Update Done', docs);
-                    res.json(docs);
-                  })
-        } else {
-            db.routing.insert(udpjson, function (err, docs) {
-                res.send(docs);
-            })
-        }
+    db.routing.findAndModify({
+        query: {
+            _id: req.body['_id']
+        },update: {
+            $set: udpjson
+        },new: true
+    }, function (err, docs) {
+        console.log('Update Done', docs);
+            res.json(docs);
     })
    
 })
@@ -206,4 +204,3 @@ server.on('close',()=>{
 })
   
 server.bind(s_port);
-// Prints: server listening 0.0.0.0:41234
